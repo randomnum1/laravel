@@ -14,7 +14,7 @@ class AlertUserPhoto extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('photo',100);
+            $table->string('photo',100)->default('');
         });
     }
 

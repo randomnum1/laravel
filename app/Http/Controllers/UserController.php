@@ -39,7 +39,6 @@ class UserController extends Controller
         $user = \Auth::user();
         if($name != $user->name) {
             if(User::where('name',$name)->count() > 0){
-                dd(1);
                 return back()->withErrors('用户名称已被注册');
             }
             $user->name = $name;
