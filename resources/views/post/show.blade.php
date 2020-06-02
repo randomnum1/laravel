@@ -29,32 +29,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">发表评论</div>
-                <ul class="list-group">
-                    @foreach($comments as $comment)
-                    <li class="list-group-item">
-                        <h5>{{$comment->created_at}} by {{$comment->name}}</h5>
-                        <div>
-                            {{$comment->content}}
-                        </div>
-                    </li>
-                    @endforeach
-                </ul>
-                <!-- List group -->
-                <ul class="list-group">
-                    <form action="/posts/{{$post->id}}/comment" method="post">
-                        {{csrf_field()}}
-                        <li class="list-group-item">
-                            <textarea name="content" class="form-control" rows="10"></textarea>
-                            <br/>
-                            <button class="btn btn-default" type="submit">提交</button>
-                        </li>
-                    </form>
 
-                </ul>
-            </div>
 
             @if(count($errors) > 0)
                 <div class="alert alert-danger" role="alert">
