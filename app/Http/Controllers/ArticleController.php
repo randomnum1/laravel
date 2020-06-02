@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \App\post;
-use \App\comente;
 use \App\zan;
 
 class ArticleController extends Controller
@@ -15,14 +14,14 @@ class ArticleController extends Controller
     {
         $posts = Post::orderBy('created_at', 'desc')->paginate(6);
 
-        return view('post/index',compact('posts','zans','comments'));
+        return view('post/index',compact('posts'));
     }
 
     //详情页
     public function show(Post $post)
     {
         //文章评论
-        $comments = DB::select('select c.content,c.created_at,u.name from comentes as c left join users as u on c.user_id = u.id where post_id = ?',[$post->id]);
+        //$comments = DB::select('select c.content,c.created_at,u.name from comentes as c left join users as u on c.user_id = u.id where post_id = ?',[$post->id]);
         //赞
         $zan =  DB::select('select count(*) as count from zans where post_id = ? && user_id = ?',[$post->id,\Auth::id()]);
 
@@ -53,6 +52,7 @@ class ArticleController extends Controller
         //渲染
         return redirect('/posts');
     }
+
 
     //文章编辑页
     public function edit(Post $post)

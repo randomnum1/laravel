@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlertUserPhoto extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AlertUserPhoto extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('photo',100)->default("");
+        Schema::create('comments', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('post_id')->default(0);
+            $table->integer('user_id')->default(0);
+            $table->text('content');
+            $table->timestamps();
         });
     }
 
@@ -25,6 +29,6 @@ class AlertUserPhoto extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('comments');
     }
 }
