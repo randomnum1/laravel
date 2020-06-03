@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \App\post;
 use \App\zan;
+use \App\comment;
 
 class ArticleController extends Controller
 {
     //列表页
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(6);
+        $posts = Post::orderBy('created_at', 'desc')->withcount(['comments','zans'])->paginate(6);
 
         return view('post/index',compact('posts'));
     }
@@ -21,11 +22,11 @@ class ArticleController extends Controller
     public function show(Post $post)
     {
         //文章评论
-        //$comments = DB::select('select c.content,c.created_at,u.name from comentes as c left join users as u on c.user_id = u.id where post_id = ?',[$post->id]);
+        $post->load('comments');
         //赞
-        $zan =  DB::select('select count(*) as count from zans where post_id = ? && user_id = ?',[$post->id,\Auth::id()]);
+        $zan = $post->zan(\Auth::id())->exists();
 
-        return view('post/show',compact('post','comments','zan'));
+        return view('post/show',compact('post','zan'));
     }
 
     //创建文章逻辑
@@ -104,9 +105,7 @@ class ArticleController extends Controller
         $user_id = \Auth::id();
 
         $params = compact('post_id','content','user_id');
-        $coment = comente::create($params);
-
-//        DB::table('comentes')->insert(compact('user_id','post_id','content'));
+        $comment = comment::create($params);
 
         //渲染
         return back();
@@ -131,20 +130,23 @@ class ArticleController extends Controller
     //取消点赞
     public function deletezan(Post $post)
     {
-        //逻辑
-        $id = DB::select('select id from zans where post_id = ? && user_id = ?',[
-            $post->id,
-            \Auth::id()
-        ]);
+//        //逻辑
+//        $id = DB::select('select id from zans where post_id = ? && user_id = ?',[
+//            $post->id,
+//            \Auth::id()
+//        ]);
+//
+//        if($id[0]->id) {
+//            DB::delete('delete from zans where id = ?',[
+//                $id[0]->id
+//            ]);
+//        }
 
-        if($id[0]->id) {
-            DB::delete('delete from zans where id = ?',[
-                $id[0]->id
-            ]);
-        }
+        $post->zan(\Auth::id())->delete();
 
         //渲染
         return back();
     }
+
 
 }

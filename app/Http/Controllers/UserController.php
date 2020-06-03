@@ -2,22 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use \App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use \App\User;
 
 class UserController extends Controller
 {
-
-    //个人主页
-    public function index()
-    {
-        $user = \Auth::user();
-        $posts = DB::select('select *,users.name from posts left join users on posts.user_id = users.id where user_id = ?',[$user->id]);
-
-        return view('user/index',compact('user','posts'));
-    }
-
 
     //个人设置页面
     public function setting()
@@ -54,6 +44,34 @@ class UserController extends Controller
 
         //渲染
         return back();
+    }
+
+
+    //个人主页
+    public function index(User $user)
+    {
+//        $user = User::get();
+
+        //文章列表
+        $post = $user->posts()->orderBy('created_at','desc')->take(10)->get();
+
+        //关注的用户,包含关注用户的 关注/粉丝/文章数
+
+        //这个人的粉丝数
+
+        return view('user/index',compact('user','post'));
+    }
+
+    //关注
+    public function fan()
+    {
+
+    }
+
+    //取消关注
+    public function unfan()
+    {
+
     }
 
 

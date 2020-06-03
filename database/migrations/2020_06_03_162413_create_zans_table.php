@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableFans extends Migration
+class CreateZansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTableFans extends Migration
      */
     public function up()
     {
-        Schema::create('fans', function (Blueprint $table) {
-        $table->increments('id');
-        $table->integer('fan_id')->dafault(0);
-        $table->integer('star_id')->dafault(0);
-        $table->timestamps();
-    });
+        Schema::create('zans', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('post_id')->dafault(0);
+            $table->integer('user_id')->dafault(0);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -28,6 +28,6 @@ class CreateTableFans extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fans');
+        Schema::dropIfExists('zans');
     }
 }

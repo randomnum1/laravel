@@ -56,5 +56,11 @@ Route::group(['middleware' => 'auth:web'], function (){
     Route::get('/posts/{post}/zan', 'ArticleController@zan');
     //文章取消点赞
     Route::get('/posts/{post}/deletezan', 'ArticleController@deletezan');
+
+    //个人中心路由
+    Route::get('/user/{user}','UserController@index');
+    Route::get('/user/{user}/fan','UserController@fan');
+    Route::get('/user/{user}/unfan','UserController@unfan');
+
 });
 

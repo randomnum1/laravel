@@ -16,5 +16,22 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
+    //关联评论
+    public function comments()
+    {
+        return $this->hasMany('App\Comment')->orderBy('created_at', 'desc');
+    }
+
+    //和用户进行关联
+    public function zan($user_id)
+    {
+        return $this->hasone('App\zan')->where('user_id',$user_id);
+    }
+
+    //文章的赞列表
+    public function zans()
+    {
+        return $this->hasMany('App\zan') ;
+    }
 
 }

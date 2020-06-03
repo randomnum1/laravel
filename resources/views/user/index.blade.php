@@ -19,10 +19,10 @@
                 <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">粉丝</a></li>
             </ul>
             <div class="tab-content">
-                @foreach($posts as $post)
+                @foreach($post as $post)
                 <div class="tab-pane active" id="tab_1">
                     <div class="blog-post" style="margin-top: 30px">
-                        <p class=""><a href="/user/{{$post->user_id}} "> {{$post->name}} </a> 6天前</p>
+                        <p class=""><a href="/user/{{$post->user_id}} "> {{$post->user->name}} </a> 6天前</p>
                         <p class=""><a href="/posts/{{$post->id}}" >{{$post->title}}</a></p>
                         <p>{!!$post->content!!}</p>
                     </div>
