@@ -16,4 +16,16 @@ class User extends Authenticatable
         return $this->hasMany(\App\Post::class);
     }
 
+    //关联粉丝数
+    public function fans()
+    {
+        return $this->hasMany('App\Fan','star_id','id');
+    }
+
+    //关联关注人数
+    public function starts()
+    {
+        return $this->hasMany('App\Fan','fan_id','id');
+    }
+
 }
