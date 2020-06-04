@@ -59,8 +59,14 @@ Route::group(['middleware' => 'auth:web'], function (){
 
     //个人中心路由
     Route::get('/user/{user}','UserController@index');
-    Route::get('/user/{user}/fan','UserController@fan');
-    Route::get('/user/{user}/unfan','UserController@unfan');
+    Route::post('/user/{user}/fan','UserController@fan');
+    Route::post('/user/{user}/unfan','UserController@unfan');
+
+    //专题详情页
+    Route::get('/topic/{topic}','TopicController@show');
+    //投稿
+    Route::post('/user/{topic}/submit','TopicController@submit');
+
 
 });
 

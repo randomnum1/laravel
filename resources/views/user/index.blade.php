@@ -9,6 +9,7 @@
             </p>
 
             <footer>关注：{{$user->starts_count}}｜粉丝：{{$user->fans_count}}｜文章：{{$user->posts_count}}</footer>
+            @include('user.bridge.like', ['target_user' => $user])
         </blockquote>
     </div>
     <div class="col-sm-8 blog-main">
@@ -24,7 +25,7 @@
                     <div class="blog-post" style="margin-top: 30px">
                         <p class=""><a href="/user/{{$post->user_id}} "> {{$post->user->name}} </a> {{$post->created_at->diffForHumans()}}</p>
                         <p class=""><a href="/posts/{{$post->id}}" >{{$post->title}}</a></p>
-                        <p>{!!$post->content!!}</p>
+                        <p>{!! str_limit($post->content,100,'...') !!}</p>
                     </div>
                 </div>
                 @endforeach
@@ -34,7 +35,7 @@
                     <div class="blog-post" style="margin-top: 30px">
                         <p class="">{{$user->name}}</p>
                         <p class="">关注：{{$user->starts_count}} | 粉丝：{{$user->fans_count}}｜ 文章：{{$user->posts_count}}</p>
-                        @include('user.bridge.like',['target_user',$user])
+                        @include('user.bridge.like',['target_user' => $user])
                     </div>
                     @endforeach
                 </div>
@@ -44,10 +45,7 @@
                         <div class="blog-post" style="margin-top: 30px">
                             <p class="">{{$user->name}}</p>
                             <p class="">关注：{{$user->starts_count}} | 粉丝：{{$user->fans_count}}｜ 文章：{{$user->posts_count}}</p>
-
-                            <div>
-                                <button class="btn btn-default like-button" like-value="1" like-user="6" _token="MESUY3topeHgvFqsy9EcM916UWQq6khiGHM91wHy" type="button">取消关注</button>
-                            </div>
+                            @include('user.bridge.like',['target_user' => $user])
                         </div>
                     @endforeach
                 </div>
@@ -83,18 +81,11 @@
             </div>
 
             <ul class="category-root list-group">
+                @foreach($topic as $topic)
                 <li class="list-group-item">
-                    <a href="/topic/1">旅游
-                    </a>
+                    <a href="/topic/{{$topic->id}}">{{$topic->name}}</a>
                 </li>
-                <li class="list-group-item">
-                    <a href="/topic/2">轻松
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="/topic/5">测试专题
-                    </a>
-                </li>
+                @endforeach
             </ul>
 
         </aside>

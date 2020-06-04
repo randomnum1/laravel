@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \App\User;
 use \App\Fan;
+use \App\Topic;
 
 class UserController extends Controller
 {
@@ -64,15 +65,18 @@ class UserController extends Controller
         $fans = $user->fans;
         $fuser = User::whereIn('id',$fans->pluck('fan_id'))->withCount(['starts','fans','posts'])->get();
 
-        return view('user/index',compact('user','post','suser','fuser'));
+        //专题列表
+        $topic = Topic::get();
+
+        return view('user/index',compact('user','post','suser','fuser','topic'));
     }
 
 
     //关注
     public function fan(User $user)
     {
-        $fan_id = \Auth::user();
-        $star_id = $user->id();
+        $fan_id = \Auth::id();
+        $star_id = $user->id;
 
         $params = compact('fan_id','star_id');
         $fan = fan::create($params);
@@ -87,9 +91,9 @@ class UserController extends Controller
     public function unfan(User $user)
     {
         $fan = new \App\Fan();
-        $fan_id = \Auth::user();
-        $star_id = $user->id();
-        $fan->wherer([
+        $fan_id = \Auth::id();
+        $star_id = $user->id;
+        $fan->where([
             ['fan_id','=',$fan_id],
             ['star_id','=',$star_id]
         ])->delete();

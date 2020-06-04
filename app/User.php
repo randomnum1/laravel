@@ -28,4 +28,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Fan','fan_id','id');
     }
 
+    // 当前用户是否被uid关注了
+    public function hasFan($uid)
+    {
+        return $this->fans()->where('fan_id', $uid)->count();
+    }
+
+    // 当前用户是否关注了uid
+    public function hasStar($uid)
+    {
+        return $this->starts()->where('star_id', $uid)->count();
+    }
+
 }
