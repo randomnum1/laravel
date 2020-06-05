@@ -13,7 +13,7 @@ class ArticleController extends Controller
     //列表页
     public function index(Request $request)
     {
-        $posts = Post::orderBy('created_at', 'desc')->withcount(['comments','zans'])->paginate(6);
+        $posts = Post::orderBy('created_at', 'desc')->where('status','=','1')->withcount(['comments','zans'])->paginate(6);
 
         return view('post/index',compact('posts'));
     }
